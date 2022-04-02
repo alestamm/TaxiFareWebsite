@@ -1,11 +1,41 @@
 import streamlit as st
 import datetime
 import requests
+import pandas as pd
+import numpy as np
+import pydeck as pdk
+
+
+st.set_page_config(layout="wide")
 
 '''
-# TaxiFareModel
+# alestamm TaxiFareModel
 '''
 
+def map(lat, lon, zoom):
+    st.write(
+        pdk.Deck(
+            map_style="mapbox://styles/alestamm/cl1i42zfc006o15ry1fzqr0ag",
+            initial_view_state={
+                "latitude": lat,
+                "longitude": lon,
+                "zoom": zoom,
+                "pitch": 50,
+            },
+            layers=[
+                pdk.Layer(
+                    "HexagonLayer",
+                    get_position=["lon", "lat"],
+                    radius=100,
+                    elevation_scale=4,
+                    elevation_range=[0, 1000],
+                    pickable=True,
+                    extruded=True,
+                ),
+            ],
+        ))
+
+st.write(map(40.6650, -73.7821, 12))
 
 ## Here we would like to add some controllers in order to ask the user to select the parameters of the ride
 
